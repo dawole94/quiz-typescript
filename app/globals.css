@@ -19,3 +19,16 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.markedAnswer {
+  background-color: black;
+  color: white;
+}
+
+.rightAnswer {
+  background-color: palegreen;
+}
+
+.wrongAnswer {
+  background-color: palevioletred;
+}
