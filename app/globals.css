@@ -32,3 +32,7 @@ body {
 .wrongAnswer {
   background-color: palevioletred;
 }
+
+.disapear {
+  display: none;
+}
