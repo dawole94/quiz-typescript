@@ -2,15 +2,20 @@
 
 import React, { useRef, useState } from "react";
 import { questions } from "./QuestionBank";
+import { useMyContext } from "./MyContext";
+import { useVisibilityContext } from "./VisibilityContext";
 
 const QuestionWindow = () => {
-  const [points, setPoints] = useState<number>(0);
+  const { points, setPoints } = useMyContext();
+  const { setIsVisible } = useVisibilityContext();
   const [i, setI] = useState<number>(0);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const okButtonRef = useRef<(HTMLButtonElement | null)>(null);
   const nextButtonRef = useRef<(HTMLButtonElement | null)>(null);
   const messageCorrectRef = useRef<HTMLParagraphElement | null>(null);
   const messageWrongRef = useRef<HTMLParagraphElement | null>(null);
+  const finishButtonRef = useRef<(HTMLButtonElement | null)>(null);
+  const againButtonRef = useRef<(HTMLButtonElement | null)>(null);
 
 
   function markAnswer(buttonIndex: number) {
@@ -32,7 +37,12 @@ const QuestionWindow = () => {
   function checkAnswer() {
     if (buttonRefs.current.some((button) => button?.classList.contains("markedAnswer"))) {
       okButtonRef.current?.classList.add("disapear");
-      nextButtonRef.current?.classList.remove("disapear");
+      if(i<=8) {
+        nextButtonRef.current?.classList.remove("disapear");
+      } else {
+        finishButtonRef.current?.classList.remove("disapear");
+      }
+      
       if (i===0) {
         checkParticularAnswer(1);
       } else if (i===1) {
@@ -68,6 +78,11 @@ const QuestionWindow = () => {
     buttonRefs.current.forEach((button) => button?.classList.remove("rightAnswer"));
     buttonRefs.current.forEach((button) => button?.classList.remove("wrongAnswer"));
     buttonRefs.current.forEach((button) => button?.classList.remove("markedAnswer"));
+  }
+
+  function finishQuiz() {
+    setIsVisible(true);
+    setI(0);
   }
 
   return (
@@ -110,6 +125,8 @@ const QuestionWindow = () => {
       <p ref={messageCorrectRef} className="ts-message-correct disapear">Correct! Well done!</p>
       <p ref={messageWrongRef} className="ts-message-wrong disapear">Wrong answer.</p>
       <button ref={nextButtonRef} onClick={goToNextQuestion} className="disapear">Next Question</button>
+      <button ref={finishButtonRef} className="disapear" onClick={finishQuiz}>Finish the quiz</button>
+      <button ref={againButtonRef} className="disapear">Start again</button>
     </div>
   );
 };
