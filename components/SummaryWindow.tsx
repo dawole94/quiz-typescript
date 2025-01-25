@@ -3,15 +3,18 @@
 import React, {useRef} from 'react'
 import { useMyContext } from "./MyContext";
 import { useVisibilityContext } from "./VisibilityContext";
+import { useWWVisibilityContext } from "./WWVisibilityContext";
 
 const SummaryWindow = () => {
 
   const { points, setPoints } = useMyContext();
   const { setIsVisible } = useVisibilityContext();
+  const { setIsWWVisible } = useWWVisibilityContext();
   const againButtonRef = useRef<(HTMLButtonElement | null)>(null);
 
   function restartQuiz() {
     setIsVisible(false);
+    setIsWWVisible(true);
     setPoints(0);
   }
 
