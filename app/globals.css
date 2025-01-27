@@ -43,3 +43,9 @@ body {
   background-color: paleturquoise;
   padding: 2px 8px
 }
+
+@media (max-width: 640px) {
+  .minWidth {
+    min-width: 80%;
+  }
+}

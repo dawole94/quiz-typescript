@@ -92,9 +92,9 @@ const QuestionWindow = () => {
   }
 
   return (
-    <div className="w-96 py-5 bg-gray-400 flex flex-col absolute left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] justify-center items-center gap-5 rounded-3xl">
+    <div className="px-5 py-5 minWidth bg-gray-400 flex flex-col absolute left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] justify-center items-center gap-5 rounded-3xl">
       <p>points: {points}</p>
-      <h1 className="font-bold px-10 text-center">{questions[i].q}</h1>
+      <h1 className="font-bold text-center">{questions[i].q}</h1>
       <button className="answerButton"
         ref={(el) => {
           buttonRefs.current[0] = el;
