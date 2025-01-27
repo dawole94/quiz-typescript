@@ -19,12 +19,17 @@ const QuestionWindow = () => {
 
 
   function markAnswer(buttonIndex: number) {
-    buttonRefs.current.forEach((button) => button?.classList.remove("markedAnswer"));
-    buttonRefs.current[buttonIndex]?.classList.add("markedAnswer");
+    if (!okButtonRef.current?.classList.contains("disapear")) {
+      buttonRefs.current.forEach((button) => button?.classList.remove("markedAnswer"));
+      buttonRefs.current.forEach((button) => button?.classList.add("answerButton"));
+      buttonRefs.current[buttonIndex]?.classList.remove("answerButton");
+      buttonRefs.current[buttonIndex]?.classList.add("markedAnswer");
+    }
   }
 
   function checkParticularAnswer(correctAnswerIndex: number) {
-    buttonRefs.current[correctAnswerIndex]?.classList.add("rightAnswer")
+    buttonRefs.current[correctAnswerIndex]?.classList.remove("answerButton");
+    buttonRefs.current[correctAnswerIndex]?.classList.add("rightAnswer");
         if (buttonRefs.current[correctAnswerIndex]?.classList.contains("markedAnswer")) {
           setPoints((prevPoints) => prevPoints + 1);
           messageCorrectRef.current?.classList.remove("disapear")
@@ -68,6 +73,7 @@ const QuestionWindow = () => {
   }
 
   function goToNextQuestion() {
+    buttonRefs.current.forEach((button) => button?.classList.add("answerButton"));
     if (i<=8) {
       setI((prevI) => prevI + 1)
     }
@@ -86,10 +92,10 @@ const QuestionWindow = () => {
   }
 
   return (
-    <div className="w-96 h-96 bg-gray-400 flex flex-col absolute left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] justify-center items-center gap-5 rounded-3xl">
+    <div className="w-96 py-5 bg-gray-400 flex flex-col absolute left-[50%] top-[50%] transform -translate-x-[50%] -translate-y-[50%] justify-center items-center gap-5 rounded-3xl">
       <p>points: {points}</p>
-      <h1 className="font-bold">{questions[i].q}</h1>
-      <button
+      <h1 className="font-bold px-10 text-center">{questions[i].q}</h1>
+      <button className="answerButton"
         ref={(el) => {
           buttonRefs.current[0] = el;
         }}
@@ -97,7 +103,7 @@ const QuestionWindow = () => {
       >
         {questions[i].a1}
       </button>
-      <button
+      <button className="answerButton"
         ref={(el) => {
           buttonRefs.current[1] = el;
         }}
@@ -105,7 +111,7 @@ const QuestionWindow = () => {
       >
         {questions[i].a2}
       </button>
-      <button
+      <button className="answerButton"
         ref={(el) => {
           buttonRefs.current[2] = el;
         }}
@@ -113,7 +119,7 @@ const QuestionWindow = () => {
       >
         {questions[i].a3}
       </button>
-      <button
+      <button className="answerButton"
         ref={(el) => {
           buttonRefs.current[3] = el;
         }}
@@ -121,12 +127,11 @@ const QuestionWindow = () => {
       >
         {questions[i].a4}
       </button>
-      <button ref={okButtonRef} onClick={checkAnswer}>OK</button>
+      <button ref={okButtonRef} onClick={checkAnswer} className="bg-green-300 px-8 py-1 rounded-full font-bold">OK</button>
       <p ref={messageCorrectRef} className="ts-message-correct disapear">Correct! Well done!</p>
-      <p ref={messageWrongRef} className="ts-message-wrong disapear">Wrong answer.</p>
-      <button ref={nextButtonRef} onClick={goToNextQuestion} className="disapear">Next Question</button>
-      <button ref={finishButtonRef} className="disapear" onClick={finishQuiz}>Finish the quiz</button>
-      <button ref={againButtonRef} className="disapear">Start again</button>
+      <p ref={messageWrongRef} className="ts-message-wrong disapear">Wrong answer</p>
+      <button ref={nextButtonRef} onClick={goToNextQuestion} className="disapear bg-blue-500 px-5 py-1 rounded-full font-bold">Next Question</button>
+      <button ref={finishButtonRef} className="disapear bg-blue-500 px-5 py-1 rounded-full font-bold" onClick={finishQuiz}>Finish the quiz</button>
     </div>
   );
 };
